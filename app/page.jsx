@@ -1,12 +1,17 @@
+import Content from "@/components/Content/Content";
+import Header from "@/components/Header/Header";
+
+
+
 
 
 
 const page = () => {
-    
   return (
-    <div>
-      Enter
-    </div>
+    <>
+      <Header/>
+      <Content/>
+    </>
   );
 }
 

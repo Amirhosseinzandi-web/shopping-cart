@@ -1,23 +1,36 @@
 "use client"
 
 
-const { createSlice } = require("@reduxjs/toolkit");
+const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
+
+
+
+export const getData = createAsyncThunk("data/getData" , async ()=>{
+    const response = await fetch("https://fakestoreapi.com/products");
+    return await response.json();
+})
+
 
 
 
 const initialState = {
-    num : 0
+    post : [] ,
+    status : ""
 }
 
 const Slice = createSlice({
-    name : "counter" , 
+    name : "data" , 
     initialState,
-    reducers : {
-        increament : (state , action) =>{
-            state.num++
+    extraReducers:{
+        [getData.fulfilled] : (state , action) =>{
+            state.status = "fullfield" ; 
+            state.post = action.payload;
         } ,
-        decreament : (state , action) =>{
-            state.num--
+        [getData.pending] : (state , action)=>{
+            state.status = "pending"
+        } , 
+        [getData.rejected] : (state , action) =>{
+            state.status = "rejected";
         }
     }
 })

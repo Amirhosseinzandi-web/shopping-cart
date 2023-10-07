@@ -15,26 +15,50 @@ export const getData = createAsyncThunk("data/getData" , async ()=>{
 
 const initialState = {
     post : [] ,
-    status : ""
+    products : [],
+    loading : true , 
+    error : null 
 }
 
 const Slice = createSlice({
     name : "data" , 
     initialState,
+    reducers : {
+        AddToCart : (state , action) =>{
+            let isInCart = state.products.some(el=>el.id===action.payload.id);
+            let findInd = state.products.find(el=>el.id===action.payload.id)
+
+            if(isInCart){
+                alert("it's in cart");
+                state.products.map(el=>{
+                    if(el.id===action.payload.id){
+                        el.quantity = Number(el.quantity) + 1;
+                    }
+                    return el
+                })
+            }else{
+                state.products.push(action.payload)
+                alert("added")
+            }
+        }
+    },
     extraReducers:{
         [getData.fulfilled] : (state , action) =>{
-            state.status = "fullfield" ; 
             state.post = action.payload;
+            state.loading = false;
+            state.error = null;
         } ,
         [getData.pending] : (state , action)=>{
-            state.status = "pending"
+            state.loading = true;
+            state.error = null;
         } , 
         [getData.rejected] : (state , action) =>{
-            state.status = "rejected";
+            state.loading = false;
+            state.error = action.payload;
         }
     }
 })
 
 
-export const {increament , decreament} = Slice.actions;
+export const {AddToCart} = Slice.actions;
 export default Slice.reducer;

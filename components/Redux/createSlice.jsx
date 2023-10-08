@@ -17,7 +17,7 @@ const initialState = {
     post : [] ,
     products : [],
     loading : true , 
-    error : null 
+    error : null ,
 }
 
 const Slice = createSlice({
@@ -26,19 +26,18 @@ const Slice = createSlice({
     reducers : {
         AddToCart : (state , action) =>{
             let isInCart = state.products.some(el=>el.id===action.payload.id);
-            let findInd = state.products.find(el=>el.id===action.payload.id)
+            let findInd = state.products.find(el=>el.id === action.payload.id)
 
             if(isInCart){
-                alert("it's in cart");
                 state.products.map(el=>{
                     if(el.id===action.payload.id){
                         el.quantity = Number(el.quantity) + 1;
+                        
                     }
                     return el
                 })
             }else{
                 state.products.push(action.payload)
-                alert("added")
             }
         }
     },

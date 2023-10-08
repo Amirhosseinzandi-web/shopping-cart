@@ -11,7 +11,7 @@ import { AddToCart } from "../Redux/createSlice";
 
 
 const FetchData = () => {
-    const [state, setState] = useState([]);
+    const [state, setState] = useState(0);
     const { post, loading , products} = useSelector(state => state.app);
     const dispatch = useDispatch();
 
@@ -23,12 +23,16 @@ const FetchData = () => {
     const QuantityHandler = (e,item) => {
         const _newData = {
             id : item.id ,
-            quantity: e.currentTarget.parentElement.parentElement.querySelector("p").innerText
+            quantity: Number(state) + 1
         }
-        dispatch(AddToCart(_newData))
-        console.log(products);
+        dispatch(AddToCart(_newData))     
+        setState(Number(state + 1))   
+        products.map(el=>{
+            if(el.id===item.id){
+                e.currentTarget.parentElement.parentElement.querySelector("p").innerText = _newData.quantity
+            }
+        })
     }
-
 
 
 
@@ -41,7 +45,7 @@ const FetchData = () => {
         <section className="product-items">
             {
                 post.map((item) => (
-                    <div key={item.id} className="flex my-6">
+                    <div key={item.id} id={item.id} className="flex my-6">
                         <div className="w-[45%] flex">
                             <div className="w-[70%] flex">
                                 <div className=" w-[25%] flex items-center">

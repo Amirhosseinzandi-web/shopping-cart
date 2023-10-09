@@ -2,7 +2,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../Redux/createSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import { AddToCart } from "../Redux/createSlice";
 
@@ -11,8 +11,7 @@ import { AddToCart } from "../Redux/createSlice";
 
 
 const FetchData = () => {
-    const [state, setState] = useState(0);
-    const { post, loading , products} = useSelector(state => state.app);
+    const { post, loading , products , loc} = useSelector(state => state.app);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -20,21 +19,42 @@ const FetchData = () => {
     }, [])
 
 
-    const QuantityHandler = (e,item) => {
+    const QuantityHandler = (e,item,op) => {
+        
         const _newData = {
             id : item.id ,
-            quantity: Number(state) + 1
+            quantity: 0 ,
+            operation : op
         }
-        dispatch(AddToCart(_newData))     
-        setState(Number(state + 1))   
-        products.map(el=>{
-            if(el.id===item.id){
-                e.currentTarget.parentElement.parentElement.querySelector("p").innerText = _newData.quantity
-            }
-        })
+        dispatch(AddToCart(_newData))
+        
+        let MinusBtn = document.querySelector(".minusBtn");
+        let PlusBtn = document.querySelector(".plusBtn");
+        if(e.currentTarget === PlusBtn){
+            MinusBtn.style.pointerEvents = "auto"
+        }
+        if(MinusBtn.parentElement.nextElementSibling.innerText<2){
+            MinusBtn.style.pointerEvents = "none"
+        }
     }
 
 
+
+
+    useEffect(() => {
+      if (loc) {
+        const element = document.querySelector(`.product-items div[id="${loc.id}"] .count`);
+        if (element) {
+          element.innerText = loc.quantity;
+        }
+      } else {
+
+        const element = document.querySelector(`.product-items .count`);
+        if (element) {
+          element.innerText = 0;
+        }
+      }
+    }, [products, loc]);   
 
 
     if (loading) {
@@ -75,9 +95,9 @@ const FetchData = () => {
                             </div>
 
                             <div className="w-[25%] flex items-center quantity-tab">
-                                <div><button onClick={(e)=>QuantityHandler(e,item)}>-</button></div>
-                                <p className="product-items-style mx-3">0</p>
-                                <div><button onClick={(e)=>QuantityHandler(e,item)}>+</button></div>
+                                <div><button className="minusBtn" onClick={(e)=>QuantityHandler(e,item,-1)}>-</button></div>
+                                <p className="product-items-style mx-3 count">0</p>
+                                <div><button className="plusBtn" onClick={(e)=>QuantityHandler(e,item,1)}>+</button></div>
                             </div>
 
                             <div className="w-[25%] text-center flex items-center justify-center">

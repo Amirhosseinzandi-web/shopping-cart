@@ -1,11 +1,13 @@
 "use client"
 
+import { document } from "postcss";
+
 
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
 
 
-export const getData = createAsyncThunk("data/getData" , async ()=>{
+export const getData = createAsyncThunk("data/getData", async () => {
     const response = await fetch("https://fakestoreapi.com/products");
     return await response.json();
 })
@@ -14,44 +16,52 @@ export const getData = createAsyncThunk("data/getData" , async ()=>{
 
 
 const initialState = {
-    post : [] ,
-    products : [],
-    loading : true , 
-    error : null ,
+    post: [],
+    products: [],
+    loading: true,
+    error: null,
+    loc: null
 }
 
 const Slice = createSlice({
-    name : "data" , 
+    name: "data",
     initialState,
-    reducers : {
-        AddToCart : (state , action) =>{
-            let isInCart = state.products.some(el=>el.id===action.payload.id);
-            let findInd = state.products.find(el=>el.id === action.payload.id)
+    reducers: {
+        AddToCart: (state, action) => {
+            let isInCart = state.products.some(el => el.id === action.payload.id);
+            const { id, operation , quantity} = action.payload;
+            const productToUpdate = state.products.find(el => el.id === id);
+           
 
-            if(isInCart){
-                state.products.map(el=>{
-                    if(el.id===action.payload.id){
-                        el.quantity = Number(el.quantity) + 1;
-                        
-                    }
-                    return el
-                })
-            }else{
-                state.products.push(action.payload)
+            if (isInCart) {
+                productToUpdate.operation = operation;
+                productToUpdate.quantity += Number(operation);
+
+                if(productToUpdate.quantity===0){
+                    let index = state.products.findIndex(el=>el.id===id)
+                    state.products.splice(index,1)
+                }
+
+            } else {
+                state.products.push({ id, operation, quantity: Number(quantity) + 1 });
             }
+
+            let findInd = state.products.find(el => el.id === id)
+            state.loc = findInd
+
         }
     },
-    extraReducers:{
-        [getData.fulfilled] : (state , action) =>{
+    extraReducers: {
+        [getData.fulfilled]: (state, action) => {
             state.post = action.payload;
             state.loading = false;
             state.error = null;
-        } ,
-        [getData.pending] : (state , action)=>{
+        },
+        [getData.pending]: (state, action) => {
             state.loading = true;
             state.error = null;
-        } , 
-        [getData.rejected] : (state , action) =>{
+        },
+        [getData.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.payload;
         }
@@ -59,5 +69,5 @@ const Slice = createSlice({
 })
 
 
-export const {AddToCart} = Slice.actions;
+export const { AddToCart } = Slice.actions;
 export default Slice.reducer;

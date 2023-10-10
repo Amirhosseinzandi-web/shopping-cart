@@ -23,8 +23,10 @@ const FetchData = () => {
         
         const _newData = {
             id : item.id ,
-            quantity: 1 ,
+            quantity: Number(e.currentTarget.parentElement.parentElement.querySelector(".first-val").value),
             operation : op ,
+            price : e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText,
+            total : Number(e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText) * Number(e.currentTarget.parentElement.parentElement.querySelector(".first-val").value)
         }
         dispatch(AddToCart(_newData))
 
@@ -90,6 +92,7 @@ const FetchData = () => {
                             <div className="w-[25%] flex items-center quantity-tab">
                                 <div><button className="minusBtn pointer-events-none" onClick={(e)=>QuantityHandler(e,item,-1)}>-</button></div>
                                 <p className="product-items-style mx-3 count">0</p>
+                                <input type="text" className="hidden first-val" value="1" />
                                 <div><button className="plusBtn" onClick={(e)=>QuantityHandler(e,item,1)}>+</button></div>
                             </div>
 
@@ -98,7 +101,7 @@ const FetchData = () => {
                             </div>
 
                             <div className="w-[25%] flex items-center justify-end">
-                                <p className="product-items-style">{item.price}</p>
+                                <p className="product-items-style price">{item.price}</p>
                             </div>
 
                         </div>

@@ -35,7 +35,7 @@ const Slice = createSlice({
             if (isInCart) {
                 productToUpdate.operation = operation;
                 productToUpdate.quantity += Number(operation);
-                // productToUpdate.total = productToUpdate.price * productToUpdate.quantity;
+                productToUpdate.total = productToUpdate.price * productToUpdate.quantity;
 
                 if (productToUpdate.quantity === 0) {
                     let index = state.products.findIndex(el => el.id === id);
@@ -48,6 +48,8 @@ const Slice = createSlice({
                 state.products.push(action.payload);
                 
             }
+            let sum = state.products.reduce((acc, el) => acc + el.total, 0);
+            state.sum = sum.toFixed(2);
         }
     },
     extraReducers: {

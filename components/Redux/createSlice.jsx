@@ -20,7 +20,7 @@ const initialState = {
     products: [],
     loading: true,
     error: null,
-    loc: null
+    sum: []
 }
 
 const Slice = createSlice({
@@ -29,26 +29,25 @@ const Slice = createSlice({
     reducers: {
         AddToCart: (state, action) => {
             let isInCart = state.products.some(el => el.id === action.payload.id);
-            const { id, operation , quantity} = action.payload;
+            const { id, operation } = action.payload;
             const productToUpdate = state.products.find(el => el.id === id);
-           
 
             if (isInCart) {
                 productToUpdate.operation = operation;
                 productToUpdate.quantity += Number(operation);
+                // productToUpdate.total = productToUpdate.price * productToUpdate.quantity;
 
-                if(productToUpdate.quantity===0){
-                    let index = state.products.findIndex(el=>el.id===id)
-                    state.products.splice(index,1)
+                if (productToUpdate.quantity === 0) {
+                    let index = state.products.findIndex(el => el.id === id);
+                    state.products.splice(index, 1);
                 }
 
+               
+
             } else {
-                state.products.push({ id, operation, quantity: Number(quantity) + 1 });
+                state.products.push(action.payload);
+                
             }
-
-            let findInd = state.products.find(el => el.id === id)
-            state.loc = findInd
-
         }
     },
     extraReducers: {

@@ -11,7 +11,7 @@ import { AddToCart } from "../Redux/createSlice";
 
 
 const FetchData = () => {
-    const { post, loading , products , loc} = useSelector(state => state.app);
+    const { post, loading , products } = useSelector(state => state.app);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -23,38 +23,31 @@ const FetchData = () => {
         
         const _newData = {
             id : item.id ,
-            quantity: 0 ,
-            operation : op
+            quantity: 1 ,
+            operation : op ,
         }
         dispatch(AddToCart(_newData))
-        
-        let MinusBtn = document.querySelector(".minusBtn");
-        let PlusBtn = document.querySelector(".plusBtn");
-        if(e.currentTarget === PlusBtn){
-            MinusBtn.style.pointerEvents = "auto"
+
+        let _count = e.currentTarget.parentElement.parentElement.querySelector(".count")
+
+
+        if(e.currentTarget.innerText === "+"){
+            _count.innerText = Number(_count.innerText) + 1;
+            e.currentTarget.parentElement.parentElement.querySelector(".minusBtn").classList.remove("pointer-events-none")
         }
-        if(MinusBtn.parentElement.nextElementSibling.innerText<2){
-            MinusBtn.style.pointerEvents = "none"
+        if(e.currentTarget.innerText === "-"){
+            _count.innerText = Number(_count.innerText) - 1
+            if(_count.innerText < 1){
+                e.currentTarget.parentElement.parentElement.querySelectorAll(".minusBtn").forEach(item=>{
+                    item.classList.remove("pointer-events-none")
+                })
+               e.currentTarget.classList.add("pointer-events-none")
+            }
         }
+
     }
 
 
-
-
-    useEffect(() => {
-      if (loc) {
-        const element = document.querySelector(`.product-items div[id="${loc.id}"] .count`);
-        if (element) {
-          element.innerText = loc.quantity;
-        }
-      } else {
-
-        const element = document.querySelector(`.product-items .count`);
-        if (element) {
-          element.innerText = 0;
-        }
-      }
-    }, [products, loc]);   
 
 
     if (loading) {
@@ -95,7 +88,7 @@ const FetchData = () => {
                             </div>
 
                             <div className="w-[25%] flex items-center quantity-tab">
-                                <div><button className="minusBtn" onClick={(e)=>QuantityHandler(e,item,-1)}>-</button></div>
+                                <div><button className="minusBtn pointer-events-none" onClick={(e)=>QuantityHandler(e,item,-1)}>-</button></div>
                                 <p className="product-items-style mx-3 count">0</p>
                                 <div><button className="plusBtn" onClick={(e)=>QuantityHandler(e,item,1)}>+</button></div>
                             </div>

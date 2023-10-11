@@ -11,7 +11,7 @@ import { AddToCart } from "../Redux/createSlice";
 
 
 const FetchData = () => {
-    const { post, loading , products } = useSelector(state => state.app);
+    const { post, loading, products, error } = useSelector(state => state.app);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -19,33 +19,36 @@ const FetchData = () => {
     }, [])
 
 
-    const QuantityHandler = (e,item,op) => {
-        
+    const QuantityHandler = (e, item, op) => {
+
         const _newData = {
-            id : item.id ,
+            id: item.id,
             quantity: Number(e.currentTarget.parentElement.parentElement.querySelector(".first-val").value),
-            operation : op ,
-            price : e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText,
-            total : Number(e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText) * Number(e.currentTarget.parentElement.parentElement.querySelector(".first-val").value)
+            operation: op,
+            price: e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText,
+            total: Number(e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText) * Number(e.currentTarget.parentElement.parentElement.querySelector(".first-val").value) ,
+            hast : true
         }
         dispatch(AddToCart(_newData))
 
-        let _count = e.currentTarget.parentElement.parentElement.querySelector(".count")
 
 
-        if(e.currentTarget.innerText === "+"){
-            _count.innerText = Number(_count.innerText) + 1;
-            e.currentTarget.parentElement.parentElement.querySelector(".minusBtn").classList.remove("pointer-events-none")
-        }
-        if(e.currentTarget.innerText === "-"){
-            _count.innerText = Number(_count.innerText) - 1
-            if(_count.innerText < 1){
-                e.currentTarget.parentElement.parentElement.querySelectorAll(".minusBtn").forEach(item=>{
-                    item.classList.remove("pointer-events-none")
-                })
-               e.currentTarget.classList.add("pointer-events-none")
-            }
-        }
+        // let _count = e.currentTarget.parentElement.parentElement.querySelector(".count")
+
+
+        // if(e.currentTarget.innerText === "+"){
+        //     _count.innerText = Number(_count.innerText) + 1;
+        //     e.currentTarget.parentElement.parentElement.querySelector(".minusBtn").classList.remove("pointer-events-none")
+        // }
+        // if(e.currentTarget.innerText === "-"){
+        //     _count.innerText = Number(_count.innerText) - 1
+        //     if(_count.innerText < 1){
+        //         e.currentTarget.parentElement.parentElement.querySelectorAll(".minusBtn").forEach(item=>{
+        //             item.classList.remove("pointer-events-none")
+        //         })
+        //        e.currentTarget.classList.add("pointer-events-none")
+        //     }
+        // }
 
     }
 
@@ -54,6 +57,9 @@ const FetchData = () => {
 
     if (loading) {
         return <h2>loading...</h2>
+    }
+    if (error) {
+        return <h2>an error occured</h2>
     }
 
     return (
@@ -90,10 +96,21 @@ const FetchData = () => {
                             </div>
 
                             <div className="w-[25%] flex items-center quantity-tab">
-                                <div><button className="minusBtn pointer-events-none" onClick={(e)=>QuantityHandler(e,item,-1)}>-</button></div>
-                                <p className="product-items-style mx-3 count">0</p>
-                                <input type="text" className="hidden first-val" value="1" />
-                                <div><button className="plusBtn" onClick={(e)=>QuantityHandler(e,item,1)}>+</button></div>
+                                <div>
+                                <button className={`minusBtn ${products.find((product) => product.id === item.id)?.hast ? "" : "pointer-events-none"}`} onClick={(e)=>QuantityHandler(e,item,-1)}>-</button>
+                                </div>
+                                <p className="product-items-style mx-3 count">
+                                    {products.find((product) => product.id === item.id)?.quantity || 0}
+                                </p>
+                                <input type="text" className="hidden first-val" defaultValue="1" />
+                                <div>
+                                    <button
+                                        className="plusBtn"
+                                        onClick={(e) => QuantityHandler(e, item, 1)}
+                                    >
+                                        +
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="w-[25%] text-center flex items-center justify-center">

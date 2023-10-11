@@ -1,6 +1,5 @@
 "use client"
 
-import { document } from "postcss";
 
 
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
@@ -19,8 +18,8 @@ const initialState = {
     post: [],
     products: [],
     loading: true,
-    error: null,
-    sum: []
+    error: false,
+    sum: [] , 
 }
 
 const Slice = createSlice({
@@ -29,25 +28,33 @@ const Slice = createSlice({
     reducers: {
         AddToCart: (state, action) => {
             let isInCart = state.products.some(el => el.id === action.payload.id);
+            
             const { id, operation } = action.payload;
             const productToUpdate = state.products.find(el => el.id === id);
+
+            // state.isYetInCart = isInCart;
 
             if (isInCart) {
                 productToUpdate.operation = operation;
                 productToUpdate.quantity += Number(operation);
                 productToUpdate.total = productToUpdate.price * productToUpdate.quantity;
+                productToUpdate.hast = true
+               
+                
 
                 if (productToUpdate.quantity === 0) {
+                    productToUpdate.hast = false;
                     let index = state.products.findIndex(el => el.id === id);
                     state.products.splice(index, 1);
+                    
                 }
 
                
 
             } else {
                 state.products.push(action.payload);
-                
             }
+
             let sum = state.products.reduce((acc, el) => acc + el.total, 0);
             state.sum = sum.toFixed(2);
         }
@@ -56,15 +63,15 @@ const Slice = createSlice({
         [getData.fulfilled]: (state, action) => {
             state.post = action.payload;
             state.loading = false;
-            state.error = null;
+            state.error = false;
         },
         [getData.pending]: (state, action) => {
             state.loading = true;
-            state.error = null;
+            state.error = false;
         },
         [getData.rejected]: (state, action) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = true;
         }
     }
 })

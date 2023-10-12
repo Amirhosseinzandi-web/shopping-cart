@@ -9,7 +9,6 @@ import { AddToCart } from "../Redux/createSlice";
 
 
 
-
 const FetchData = () => {
     const { post, loading, products, error } = useSelector(state => state.app);
     const dispatch = useDispatch();
@@ -26,31 +25,12 @@ const FetchData = () => {
             quantity: Number(e.currentTarget.parentElement.parentElement.querySelector(".first-val").value),
             operation: op,
             price: e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText,
-            total: Number(e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText) * Number(e.currentTarget.parentElement.parentElement.querySelector(".first-val").value) ,
-            hast : true
+            total: Number(e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText) * Number(e.currentTarget.parentElement.parentElement.querySelector(".first-val").value),
+            IsYetInCart: true
         }
         dispatch(AddToCart(_newData))
-
-
-
-        // let _count = e.currentTarget.parentElement.parentElement.querySelector(".count")
-
-
-        // if(e.currentTarget.innerText === "+"){
-        //     _count.innerText = Number(_count.innerText) + 1;
-        //     e.currentTarget.parentElement.parentElement.querySelector(".minusBtn").classList.remove("pointer-events-none")
-        // }
-        // if(e.currentTarget.innerText === "-"){
-        //     _count.innerText = Number(_count.innerText) - 1
-        //     if(_count.innerText < 1){
-        //         e.currentTarget.parentElement.parentElement.querySelectorAll(".minusBtn").forEach(item=>{
-        //             item.classList.remove("pointer-events-none")
-        //         })
-        //        e.currentTarget.classList.add("pointer-events-none")
-        //     }
-        // }
-
     }
+
 
 
 
@@ -66,7 +46,7 @@ const FetchData = () => {
         <section className="product-items">
             {
                 post.map((item) => (
-                    <div key={item.id} id={item.id} className="flex my-6">
+                    <div key={item.id} id={item.id} className="flex my-6 py-3">
                         <div className="w-[45%] flex">
                             <div className="w-[70%] flex">
                                 <div className=" w-[25%] flex items-center">
@@ -97,7 +77,7 @@ const FetchData = () => {
 
                             <div className="w-[25%] flex items-center quantity-tab">
                                 <div>
-                                <button className={`minusBtn ${products.find((product) => product.id === item.id)?.hast ? "" : "pointer-events-none"}`} onClick={(e)=>QuantityHandler(e,item,-1)}>-</button>
+                                    <button className={`minusBtn ${products.find((product) => product.id === item.id)?.IsYetInCart ? "" : "pointer-events-none"}`} onClick={(e) => QuantityHandler(e, item, -1)}>-</button>
                                 </div>
                                 <p className="product-items-style mx-3 count">
                                     {products.find((product) => product.id === item.id)?.quantity || 0}

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../Redux/createSlice";
 import { useEffect } from "react";
 import Image from "next/image";
-import { AddToCart } from "../Redux/createSlice";
+import { AddToCart, removeItem } from "../Redux/createSlice";
 
 
 
@@ -91,6 +91,13 @@ const FetchData = () => {
                                         +
                                     </button>
                                 </div>
+
+                                <div className="ml-3">
+                                    <button onClick={() => dispatch(removeItem(item))}>
+                                        <i className="bi bi-x-lg text-black"></i>
+                                    </button>
+                                </div>
+
                             </div>
 
                             <div className="w-[25%] text-center flex items-center justify-center">

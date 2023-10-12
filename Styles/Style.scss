@@ -81,6 +81,10 @@ main {
           align-items: center;
           box-shadow: 1px 1px 5px gray;
           user-select: none;
+          i{
+            display: inline-flex;
+            font-size: 16px;
+          }
         }
         .count{
           user-select: none;

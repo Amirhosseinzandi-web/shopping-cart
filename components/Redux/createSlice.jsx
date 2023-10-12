@@ -20,8 +20,8 @@ const initialState = {
     loading: true,
     error: false,
     sum: [],
-    tax : 15 ,
-    AllTotal : null
+    tax: 15,
+    AllTotal: null
 }
 
 const Slice = createSlice({
@@ -58,6 +58,16 @@ const Slice = createSlice({
             let sum = state.products.reduce((acc, el) => acc + el.total, 0);
             state.sum = sum.toFixed(2);
             state.AllTotal = Number(state.sum) * Number(state.tax)
+        },
+        removeItem: (state, action) => {
+            let isInCart = state.products.some(el => el.id === action.payload.id)
+            if (isInCart) {
+                let index = state.products.findIndex(el => el.id === action.payload.id);
+                state.products.splice(index, 1);
+            }
+            let sum = state.products.reduce((acc, el) => acc + el.total, 0);
+            state.sum = sum.toFixed(2);
+            state.AllTotal = Number(state.sum) * Number(state.tax)
         }
     },
     extraReducers: (builder) => {
@@ -79,5 +89,5 @@ const Slice = createSlice({
 })
 
 
-export const { AddToCart } = Slice.actions;
+export const { AddToCart, removeItem } = Slice.actions;
 export default Slice.reducer;

@@ -18,6 +18,8 @@ const FetchData = () => {
     }, [])
 
 
+    
+
     const QuantityHandler = (e, item, op) => {
 
         const _newData = {

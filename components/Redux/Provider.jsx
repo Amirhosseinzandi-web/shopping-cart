@@ -2,6 +2,7 @@
 
 import { Provider } from 'react-redux';
 import Store from './Store';
+import { useEffect, useState } from 'react';
 
 
 const Providers = ({children}) =>{

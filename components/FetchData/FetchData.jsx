@@ -11,6 +11,7 @@ import { AddToCart, removeItem } from "../Redux/createSlice";
 
 const FetchData = () => {
     const { post, loading, products, error } = useSelector(state => state.app);
+    // const [local , setLocall] = useState([])
     const dispatch = useDispatch();
 
     useEffect(() => {

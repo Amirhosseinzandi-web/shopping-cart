@@ -52,7 +52,7 @@ const Footer = () => {
                                 </div>
 
                                 <div className="w-[50%]">
-                                    <p className="text-end summary-price">{products.length > 0 ? sum : "0.0"} $</p>
+                                    <p className="text-end summary-price">{products && products.length > 0 ? sum : "0.0"} $</p>
                                 </div>
 
                             </div>
@@ -74,7 +74,7 @@ const Footer = () => {
                                 </div>
 
                                 <div className="w-[50%]">
-                                    <p className="text-end summary-price">{AllTotal || 0} $</p>
+                                    <p className="text-end summary-price">{AllTotal && AllTotal.toFixed(2) || 0} $</p>
                                 </div>
 
                             </div>

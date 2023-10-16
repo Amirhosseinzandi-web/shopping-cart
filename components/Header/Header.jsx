@@ -28,7 +28,7 @@ const Header = () => {
             <section className="container mx-auto px-16 py-7">
                 <div className="flex justify-between">
                     <h2>TEMPLATE</h2>
-                    <h2>SHOPPING BAG (<span>{products.length}</span>)</h2>
+                    <h2>SHOPPING BAG (<span>{products && products.length}</span>)</h2>
                 </div>
             </section>
         </header>

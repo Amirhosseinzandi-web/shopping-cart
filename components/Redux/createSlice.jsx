@@ -6,24 +6,6 @@ const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
 
 
-const loadFromStorage = () =>{
-    try{
-        if(localStorage.getItem("getProducts")===null){
-            localStorage.setItem("getProducts", JSON.stringify([]))
-        }else{
-           return JSON.parse(localStorage.getItem("getProducts"))
-        }
-    }
-    catch(err){
-        return undefined
-    }
-}
-
-
-const setToStorage = (state) =>{
-    localStorage.setItem("getProducts" , JSON.stringify(state))
-}
-
 
 
 export const getData = createAsyncThunk("data/getData", async () => {
@@ -34,9 +16,9 @@ export const getData = createAsyncThunk("data/getData", async () => {
 
 
 
-const initialState = loadFromStorage() || {
+const initialState = {
     post: [],
-    products: [],
+    products:[],
     loading: true,
     error: false,
     sum: [],
@@ -78,7 +60,6 @@ const Slice = createSlice({
             let sum = state.products.reduce((acc, el) => acc + el.total, 0);
             state.sum = sum.toFixed(2);
             state.AllTotal = Number(state.sum) * Number(state.tax)
-            setToStorage(state)
         },
         removeItem: (state, action) => {
             let isInCart = state.products.some(el => el.id === action.payload.id)
@@ -89,7 +70,6 @@ const Slice = createSlice({
             let sum = state.products.reduce((acc, el) => acc + el.total, 0);
             state.sum = sum.toFixed(2);
             state.AllTotal = Number(state.sum) * Number(state.tax)
-            setToStorage(state)
         }
     },
     extraReducers: (builder) => {

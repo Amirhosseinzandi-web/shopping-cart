@@ -59,7 +59,7 @@ const Slice = createSlice({
 
             let sum = state.products.reduce((acc, el) => acc + el.total, 0);
             state.sum = sum.toFixed(2);
-            state.AllTotal = Number(state.sum) * Number(state.tax)
+            state.AllTotal = Number(state.sum) + Number(state.tax)
         },
         removeItem: (state, action) => {
             let isInCart = state.products.some(el => el.id === action.payload.id)
@@ -69,7 +69,7 @@ const Slice = createSlice({
             }
             let sum = state.products.reduce((acc, el) => acc + el.total, 0);
             state.sum = sum.toFixed(2);
-            state.AllTotal = Number(state.sum) * Number(state.tax)
+            state.AllTotal = Number(state.sum) + Number(state.tax)
         },
     },
     extraReducers: (builder) => {

@@ -30,7 +30,7 @@ const FetchData = () => {
             price: parentElement.querySelector(".price").innerText,
             total: Number(parentElement.querySelector(".price").innerText) * Number(parentElement.querySelector(".first-val").value),
             IsYetInCart: true , 
-            src : parentElement.querySelector("figure>img").src
+            src : item.image
         }
         dispatch(AddToCart(_newData))
     }

@@ -8,9 +8,12 @@ import Image from "next/image";
 const ShoppingBag = () => {
     const { products } = useSelector(state => state.app)
     const dispatch = useDispatch()
+
+
     return (
         <section className="shopping-bag p-5">
             <div className="px-5">
+            <p className={`product-items-style ${ products && products.length<1 ? ("block") : ("hidden")}`}>Nothing to show ...</p>
                 {
                     products && products.map((item) => (
                         <div key={item.id} className="py-3">

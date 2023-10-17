@@ -51,7 +51,7 @@ const Header = () => {
             <section className="container mx-auto px-16 py-7">
                 <div className="flex justify-between">
                     <h2>TEMPLATE</h2>
-                    <h2 onClick={showShoppHandler}>SHOPPING BAG (<span>{products && products.length}</span>)</h2>
+                    <h2 className="select-none cursor-pointer" onClick={showShoppHandler}>SHOPPING BAG (<span>{products && products.length}</span>)</h2>
                     {
                         showShopBag && <ShoppingBag />
                     }

@@ -11,7 +11,6 @@ import { AddToCart, removeItem } from "../Redux/createSlice";
 
 const FetchData = () => {
     const { post, loading, products, error } = useSelector(state => state.app);
-    // const [local , setLocall] = useState([])
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -22,14 +21,16 @@ const FetchData = () => {
     
 
     const QuantityHandler = (e, item, op) => {
-
+        const parentElement = e.currentTarget.parentElement.parentElement.parentElement.parentElement
         const _newData = {
+            name : parentElement.querySelector(".item-name").innerText ,
             id: item.id,
-            quantity: Number(e.currentTarget.parentElement.parentElement.querySelector(".first-val").value),
+            quantity: Number(parentElement.querySelector(".first-val").value),
             operation: op,
-            price: e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText,
-            total: Number(e.currentTarget.parentElement.parentElement.parentElement.querySelector(".price").innerText) * Number(e.currentTarget.parentElement.parentElement.querySelector(".first-val").value),
-            IsYetInCart: true
+            price: parentElement.querySelector(".price").innerText,
+            total: Number(parentElement.querySelector(".price").innerText) * Number(parentElement.querySelector(".first-val").value),
+            IsYetInCart: true , 
+            src : parentElement.querySelector("figure>img").src
         }
         dispatch(AddToCart(_newData))
     }
@@ -60,7 +61,7 @@ const FetchData = () => {
 
                                 <div className=" w-[70%] flex items-center">
                                     <section className="product-description">
-                                        <p className="capitalize">{item.category}</p>
+                                        <p className="capitalize item-name">{item.category}</p>
                                         <p className="my-2">{item.title}</p>
                                         <p>{item.description}</p>
                                     </section>

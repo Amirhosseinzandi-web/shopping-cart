@@ -1,7 +1,15 @@
+"use client"
+
+
 import FetchData from "../FetchData/FetchData";
 
 
-
+const clickHandler = () =>{
+    window.scrollTo({
+        top: document.querySelector("footer").offsetTop,
+        behavior: 'smooth',
+    });
+}
 
 
 const Content = () => {
@@ -10,7 +18,7 @@ const Content = () => {
             <section className="container mx-auto px-16 py-14">
                 <div className="flex justify-between">
                     <h1>Your Shopping Bag</h1>
-                    <button className="px-7 py-3 rounded-sm continue-shopping-btn">Continue Shopping</button>
+                    <button onClick={clickHandler} className="px-7 py-3 rounded-sm continue-shopping-btn">Continue Shopping</button>
                 </div>
 
 

@@ -18,7 +18,7 @@ export const getData = createAsyncThunk("data/getData", async () => {
 
 const initialState = {
     post: [],
-    products:[],
+    products: [],
     loading: true,
     error: false,
     sum: [],
@@ -70,7 +70,7 @@ const Slice = createSlice({
             let sum = state.products.reduce((acc, el) => acc + el.total, 0);
             state.sum = sum.toFixed(2);
             state.AllTotal = Number(state.sum) * Number(state.tax)
-        }
+        },
     },
     extraReducers: (builder) => {
         builder

@@ -1,4 +1,5 @@
 header {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.269);
   width: 100%;
   transform: translateY(0);
   -webkit-transform: translateY(0);
@@ -11,8 +12,8 @@ header {
   -moz-transition: 0.5s;
   -ms-transition: 0.5s;
   -o-transition: 0.5s;
-  
-  h2{
+
+  h2 {
     font-weight: 500;
     letter-spacing: 2px;
 
@@ -24,12 +25,13 @@ header {
     &:nth-of-type(2) {
       font-size: 14px;
 
-      > span {
+      >span {
         color: #979bb4;
       }
     }
   }
 }
+
 .sticky-header {
   position: fixed;
   top: 0;
@@ -40,10 +42,11 @@ header {
 }
 
 @keyframes SlideDown {
-  from{
+  from {
     transform: translateY(-100%);
   }
-  to{
+
+  to {
     transform: translateY(0);
   }
 }
@@ -94,10 +97,12 @@ main {
         }
       }
     }
+
     .product-items {
-      > div {
+      >div {
         border-bottom: 1px solid #dbe0e6;
       }
+
       .quantity-tab {
         button {
           width: 25px;
@@ -111,11 +116,13 @@ main {
           align-items: center;
           box-shadow: 1px 1px 5px gray;
           user-select: none;
+
           i {
             display: inline-flex;
             font-size: 16px;
           }
         }
+
         .count {
           user-select: none;
         }
@@ -140,16 +147,53 @@ main {
 
 footer {
   background-color: #f8f8f8;
+
   p {
     color: #979bb4;
   }
+
   figure {
     width: 50px;
     height: 50px;
+
     img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+    }
+  }
+}
+
+
+.shopping-bag {
+  position: absolute;
+  top: 90px;
+  right: 3%;
+  background-color: rgb(209, 204, 204);
+  border-radius: 8px;
+  box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.257);
+  border: 1px solid rgba(0, 0, 0, 0.044);
+
+  >div {
+    width: 400px;
+    height: 500px;
+    overflow-y: auto;
+    border: 1px solid rgba(0, 0, 0, 0.069);
+    border-radius: 8px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      background-color: #222028;
+      border-radius: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #DD9904;
+      border-radius: 8px;
+    }
+
+    div {
+      border-bottom: 2px solid #dbe0e6;
     }
   }
 }
